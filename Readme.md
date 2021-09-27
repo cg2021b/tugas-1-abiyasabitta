@@ -4,7 +4,7 @@
 |----------------|------------------------|
 | 05111940000166 | Abiya Sabitta Ragadani |
 
-Pada tugas pertama diminta untuk mencari benda disekitar yang berawalan B, G, atau L. Dan saya mendapatkan bendanya yaitu BUKU.
+Pada tugas pertama diminta untuk mencari benda disekitar yang berawalan B, G, atau L. Dan saya mendapatkan bendanya yaitu BOTOL.
 Berikut ini adalah foto yang saya ambil dari buku tersebut.
 <br>
 Foto Samping Kanan
