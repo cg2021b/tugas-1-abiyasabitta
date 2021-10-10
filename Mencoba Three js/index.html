@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script src="./js/three.min.js"></script>
+</head>
+<body>
+    
+</body>
+</html>
+
+
+<script>    
+    let scene, camera, renderer;
+    var pindah = 0.01, pindah2= 0.07;
+    let lighting = function(){
+        const color = 0xFFFFFF;
+        const intensity = 1;
+        const light = new THREE.DirectionalLight(color, intensity);
+        const light2 = new THREE.SpotLight(color, intensity);
+
+        light.position.set(2, 10, 10);
+        light.target.position.set(0, 0, 0);
+        light2.position.set(5, 0, 3.5);
+        light.target.position.set(0,0,0);
+
+        scene.add(light);
+        scene.add(light.target);
+        scene.add(light2);
+    }
+
+    let createCone = function(){
+        let geometryC = new THREE.ConeGeometry(
+            0.75, 1.5, 50
+        )
+        let textureC = new THREE.MeshLambertMaterial({color:"rgb(250,10,10)", wireframe: true});
+        cone = new THREE.Mesh(geometryC, textureC);
+        cone.position.set(-5,2,0)
+        scene.add(cone);
+    }
+
+    let createTorusKnot = function(){
+        geometry = new THREE.TorusKnotGeometry( 0.8, 0.3, 100, 16 );
+        material = new THREE.MeshNormalMaterial( { flatShading: true } );
+        torusKnot = new THREE.Mesh( geometry, material );
+        torusKnot.position.set(-5,-2,0)
+        scene.add( torusKnot );
+    }
+
+    let createDode = function(){
+        let geometryd = new THREE.DodecahedronGeometry(1, 0);
+        let textured = new THREE.MeshToonMaterial({color:"rgb(250, 10, 230)"});
+        Dode = new THREE.Mesh(geometryd, textured);
+        Dode.position.set(5,2,0);
+        scene.add(Dode);
+    }
+
+    let createDonut = function(){
+        geometry = new THREE.TorusGeometry( 0.7, 0.3, 16, 100 );
+        material = new THREE.MeshPhysicalMaterial( { color: "rgb(255, 225, 175)" } );
+        torus = new THREE.Mesh( geometry, material );
+        torus.position.set(5,-2,0);
+        scene.add(torus);
+    }
+
+    let createCube = function(){
+        let geometry = new THREE.BoxGeometry(
+            1,1,1
+        );
+        let texture = new THREE.MeshLambertMaterial({color: "rgb(230, 230, 0)"});
+        cube = new THREE.Mesh(geometry, texture);
+        scene.add(cube);
+    }     
+    let createSphere = function(){
+        let geometry2 = new THREE.SphereGeometry(0.5, 20, 20);
+        let texture2 = new THREE.MeshPhongMaterial({color: "rgb(0,1, 0)", shininess: 100});
+        sphere = new THREE.Mesh(geometry2, texture2);
+        scene.add(sphere);
+    }
+
+    // set up the environment - 
+    // initiallize scene, camera, objects and renderer
+    let init = function() {
+        // 1. create the scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color("rgb(204, 201, 220)");
+            
+        // 2. create an locate the camera       
+        camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.z = 15;
+            
+        // 3. create an locate the object on the scene           
+        lighting();
+        createCube();
+        createCone();
+        createSphere();
+        createDode();
+        createTorusKnot();
+        createDonut();
+        // 4. create the renderer     
+        renderer = new THREE.WebGLRenderer();   
+        renderer.setSize(window.innerWidth, window.innerHeight);
+            
+        document.body.appendChild(renderer.domElement)
+    };
+      
+        
+        // main animation loop - calls 50-60 in a second.
+        let mainLoop = function() {
+            cube.rotation.x += 0.02;
+            cube.rotation.y += 0.02;
+            cube.position.x += pindah;
+            if(cube.position.x > 3) pindah = -0.01;
+            if(cube.position.x < -3) pindah = 0.01;
+
+            cone.rotation.x += 0.05;
+            cone.rotation.y += 0.05;
+            cone.rotation.z += 0.02;
+
+            Dode.rotation.x += 0.0166;
+            Dode.rotation.y += 0.0166;
+
+            torusKnot.rotation.x += 0.05;
+            torusKnot.rotation.y += 0.05;
+
+            torus.rotation.x += 0.05;
+            torus.rotation.y += 0.05;
+
+            sphere.rotation.x += 0.1;
+            sphere.rotation.y += 0.1;
+            sphere.position.y += pindah2;
+            sphere.position.x += -pindah;
+            if(sphere.position.y > 3) pindah2 = -0.07;
+            if(sphere.position.y < -3) pindah2 = 0.07;
+            
+            renderer.render(scene, camera);
+            requestAnimationFrame(mainLoop);
+        };
+        
+        init();
+        mainLoop();
+    </script>
+    
